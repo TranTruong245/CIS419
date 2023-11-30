@@ -1,13 +1,4 @@
-'''
-    TEST SCRIPT FOR UNIVARIATE LINEAR REGRESSION
-    AUTHOR Eric Eaton, Vishnu Purushothaman Sreenivasan
-'''
 
-'''
-Numpy is a standard library in python that lets you do matrix and vector operations like Matlab in python.
-Check out documentation here: http://wiki.scipy.org/Tentative_NumPy_Tutorial
-If you are a Matlab user this page is super useful: http://wiki.scipy.org/NumPy_for_Matlab_Users 
-'''
 import numpy as np
 from numpy.linalg import *
 
@@ -61,27 +52,13 @@ def plotRegLine1D( lr_model, X, y):
 
 
 def visualizeObjective(lr_model,t1_vals,t2_vals, X, y):
-    '''
-        The function does the surface plot of the objective for a 
-        univariate regression problem with a bias term, so over 2 parameters.
-        Search over the space of theta1, theta2.
-        
-        It also plots the gradient descent steps as blue points on the surface plot.
-        Finally it plots a contour plot of the same
-        
-        lr_model - object of class LinReg (already trained)
-        t1_vals, t2_vals - values over which the objective function should be plotted
-                        List of numbers
-        X - n*2 matrix or vector of length n ( the second dimension is a column of ones for the bias term)
-        y - n*1 matrix or vector of length n
-    '''
     T1,T2 = np.meshgrid(t1_vals, t2_vals)
     n,p = T1.shape
 
     # Compute the objective function over the space
     Z = np.zeros(T1.shape)
-    for i in xrange(n):
-        for j in xrange(p):
+    for i in np.arange(n):
+        for j in np.arange(p):
             Z[i,j] = lr_model.computeCost(X,y, np.matrix([T1[i,j],T2[i,j]]).T )
 
     fig = plt.figure()
@@ -98,7 +75,7 @@ def visualizeObjective(lr_model,t1_vals,t2_vals, X, y):
     # If the history of the objective function plot the path taken by the gradient descent
     if lr_model.JHist !=None:
         
-        for ii in xrange(len(lr_model.JHist)-1): 
+        for ii in np.arange(len(lr_model.JHist)-1): 
             t1 = lr_model.JHist[ii][1].tolist()
             t2 = lr_model.JHist[ii+1][1].tolist()
 
@@ -169,6 +146,6 @@ if __name__ == "__main__":
 
     # Compute the closed form solution in one line of code
     theta_closed_form = (X.getT()*X).getI()*X.getT()*y  
-    print "theta_closed_form: ", theta_closed_form
+    print ("theta_closed_form: ", theta_closed_form)
     
 
